@@ -1,5 +1,14 @@
 # FreeAgent puts the powerline style in zsh !
 
+#colors
+LEFT_SEC_1_BG='11'
+LEFT_SEC_2_BG='8'
+LEFT_GIT_BG='234'
+LEFT_GIT_FG='white'
+
+RIGHT_B_BG='4'
+RIGHT_B_FG='white'
+
 if [ "$POWERLINE_DATE_FORMAT" = "" ]; then
   POWERLINE_DATE_FORMAT=%D{%Y-%m-%d}
 fi
@@ -28,7 +37,7 @@ else
     POWERLINE_USER_NAME=""
 fi
 
-POWERLINE_CURRENT_PATH="%d"
+POWERLINE_CURRENT_PATH="%3~"
 
 if [ "$POWERLINE_FULL_CURRENT_PATH" = "" ]; then
   POWERLINE_CURRENT_PATH="%1~"
@@ -39,7 +48,7 @@ if [ "$POWERLINE_GIT_CLEAN" = "" ]; then
 fi
 
 if [ "$POWERLINE_GIT_DIRTY" = "" ]; then
-  POWERLINE_GIT_DIRTY="✘"
+  POWERLINE_GIT_DIRTY="%F{red}✘%F"
 fi
 
 if [ "$POWERLINE_GIT_ADDED" = "" ]; then
@@ -51,7 +60,7 @@ if [ "$POWERLINE_GIT_MODIFIED" = "" ]; then
 fi
 
 if [ "$POWERLINE_GIT_DELETED" = "" ]; then
-  POWERLINE_GIT_DELETED="%F{red}✖%F{black}"
+  POWERLINE_GIT_DELETED="%S%F{red}✖%F%s"
 fi
 
 if [ "$POWERLINE_GIT_UNTRACKED" = "" ]; then
@@ -87,14 +96,14 @@ ZSH_THEME_GIT_PROMPT_DIVERGED=" ⬍"
 # else
     if [ "$POWERLINE_SHOW_GIT_ON_RIGHT" = "" ]; then
         if [ "$POWERLINE_HIDE_GIT_PROMPT_STATUS" = "" ]; then
-            POWERLINE_GIT_INFO_LEFT=" %F{blue}%K{white}"$'\ue0b0'"%F{white}%F{black}%K{white}"$'$(git_prompt_info)$(git_prompt_status)%F{white}'
+            POWERLINE_GIT_INFO_LEFT=" %F{$LEFT_SEC_2_BG}%K{$LEFT_GIT_BG}"$'\ue0b0'"%F{$LEFT_GIT_BG}%F{$LEFT_GIT_FG}%K{$LEFT_GIT_BG}"$'$(git_prompt_info)$(git_prompt_status)%F{$LEFT_GIT_BG}'
         else
-            POWERLINE_GIT_INFO_LEFT=" %F{blue}%K{white}"$'\ue0b0'"%F{white}%F{black}%K{white}"$'$(git_prompt_info)%F{white}'
+            POWERLINE_GIT_INFO_LEFT=" %F{$LEFT_SEC_2_BG}%K{$LEFT_GIT_BG}"$'\ue0b0'"%F{$LEFT_GIT_BG}%F{$LEFT_GIT_FG}%K{$LEFT_GIT_BG}"$'$(git_prompt_info)%F{$LEFT_GIT_BG}'
         fi
         POWERLINE_GIT_INFO_RIGHT=""
     else
         POWERLINE_GIT_INFO_LEFT=""
-        POWERLINE_GIT_INFO_RIGHT="%F{white}"$'\ue0b2'"%F{black}%K{white}"$'$(git_prompt_info)'" %K{white}"
+        POWERLINE_GIT_INFO_RIGHT="%F{$LEFT_GIT_BG}"$'\ue0b2'"%F{$LEFT_GIT_FG}%K{$LEFT_GIT_BG}"$'$(git_prompt_info)'" %K{$LEFT_GIT_BG}"
     fi
 # fi
 
@@ -102,8 +111,8 @@ if [ $(id -u) -eq 0 ]; then
     POWERLINE_SEC1_BG=%K{red}
     POWERLINE_SEC1_FG=%F{red}
 else
-    POWERLINE_SEC1_BG=%K{green}
-    POWERLINE_SEC1_FG=%F{green}
+    POWERLINE_SEC1_BG=%K{$LEFT_SEC_1_BG}
+    POWERLINE_SEC1_FG=%F{$LEFT_SEC_1_BG}
 fi
 POWERLINE_SEC1_TXT=%F{black}
 if [ "$POWERLINE_DETECT_SSH" != "" ]; then
@@ -113,7 +122,7 @@ if [ "$POWERLINE_DETECT_SSH" != "" ]; then
     POWERLINE_SEC1_TXT=%F{white}
   fi
 fi
-PROMPT="$POWERLINE_SEC1_BG$POWERLINE_SEC1_TXT $POWERLINE_USER_NAME %k%f$POWERLINE_SEC1_FG%K{blue}"$'\ue0b0'"%k%f%F{white}%K{blue} "$POWERLINE_CURRENT_PATH"%F{blue}"$POWERLINE_GIT_INFO_LEFT" %k"$'\ue0b0'"%f "
+PROMPT="$POWERLINE_SEC1_BG$POWERLINE_SEC1_TXT $POWERLINE_USER_NAME %k%f$POWERLINE_SEC1_FG%K{$LEFT_SEC_2_BG}"$'\ue0b0'"%k%f%F{white}%K{$LEFT_SEC_2_BG} "$POWERLINE_CURRENT_PATH"%F{$LEFT_SEC_2_BG}"$POWERLINE_GIT_INFO_LEFT" %k"$'\ue0b0'"%f "
 
 if [ "$POWERLINE_NO_BLANK_LINE" = "" ]; then
     PROMPT="
@@ -122,10 +131,10 @@ fi
 
 if [ "$POWERLINE_DISABLE_RPROMPT" = "" ]; then
     if [ "$POWERLINE_RIGHT_A" = "" ]; then
-        RPROMPT="$POWERLINE_GIT_INFO_RIGHT%F{white}"$'\ue0b2'"%k%F{black}%K{white} $POWERLINE_RIGHT_B %f%k"
+        RPROMPT="$POWERLINE_GIT_INFO_RIGHT%F{$RIGHT_B_BG}"$'\ue0b2'"%k%F{$RIGHT_B_FG}%K{$RIGHT_B_BG} $POWERLINE_RIGHT_B %f%k"
     elif [ "$POWERLINE_RIGHT_B" = "" ]; then
-        RPROMPT="$POWERLINE_GIT_INFO_RIGHT%F{white}"$'\ue0b2'"%k%F{240}%K{white} $POWERLINE_RIGHT_A %f%k"
+        RPROMPT="$POWERLINE_GIT_INFO_RIGHT%F{$RIGHT_B_BG}"$'\ue0b2'"%k%F{240}%K{$RIGHT_B_BG} $POWERLINE_RIGHT_A %f%k"
     else
-        RPROMPT="$POWERLINE_GIT_INFO_RIGHT%F{white}"$'\ue0b2'"%k%F{black}%K{white} $POWERLINE_RIGHT_B %f%F{240}"$'\ue0b2'"%f%k%K{240}%F{255} $POWERLINE_RIGHT_A %f%k"
+        RPROMPT="$POWERLINE_GIT_INFO_RIGHT%F{$RIGHT_B_BG}"$'\ue0b2'"%k%F{$RIGHT_B_FG}%K{$RIGHT_B_BG} $POWERLINE_RIGHT_B %f%F{240}"$'\ue0b2'"%f%k%K{240}%F{255} $POWERLINE_RIGHT_A %f%k"
     fi
 fi
