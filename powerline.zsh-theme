@@ -1,7 +1,7 @@
 # FreeAgent puts the powerline style in zsh !
 
 #colors
-LEFT_SEC_1_BG='11'
+LEFT_SEC_1_BG='190'
 LEFT_SEC_2_BG='8'
 LEFT_GIT_BG='234'
 LEFT_GIT_FG='white'
